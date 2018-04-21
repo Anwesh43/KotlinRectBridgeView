@@ -79,12 +79,17 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             val h : Float = canvas.height.toFloat()
             val y1 : Float = 0.9f * h
             val y2 : Float = 0.75f * h
+            val lw : Float = 0.02f * h
+            paint.strokeWidth = lw
+            paint.strokeCap = Paint.Cap.ROUND
             for(i in 0..1) {
                 canvas.drawRect(i * w * (1 -   ((state.scales[0]) / k)) , y2, w * i + w/k * state.scales[0] * (1 - i), y1, paint)
             }
             val xLine : Float = (w / (2 * k)) * state.scales[1]
+            val yk1 : Float = y1 - lw/2
+            val yk2 : Float = y2 + lw/2
             canvas.save()
-            canvas.translate(w/2, y1  + (y2 - y1) * h * this.state.scales[1])
+            canvas.translate(w/2, yk1  + (yk2 - yk1) * h * this.state.scales[1])
             canvas.drawLine(-xLine, 0f, xLine, 0f, paint)
             canvas.restore()
         }
@@ -120,7 +125,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
         fun create(activity : Activity) : RectBridgeView {
             val view : RectBridgeView = RectBridgeView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
