@@ -80,6 +80,8 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             val y1 : Float = 0.9f * h
             val y2 : Float = 0.75f * h
             val lw : Float = 0.02f * h
+            canvas.save()
+            canvas.translate(0f, -0.3f * h)
             paint.strokeWidth = lw
             paint.strokeCap = Paint.Cap.ROUND
             for(i in 0..1) {
@@ -91,6 +93,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             canvas.save()
             canvas.translate(w/2, yk1  + (yk2 - yk1)  * this.state.scales[2])
             canvas.drawLine(-xLine, 0f, xLine, 0f, paint)
+            canvas.restore()
             canvas.restore()
         }
         fun update(stopcb : (Float) -> Unit) {
