@@ -24,7 +24,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
         return true
     }
     data class State (private var prevScale : Float = 0f, var dir : Float = 0f, var j : Int = 0) {
-        val scales : Array<Float> = arrayOf(0f, 0f, 0f)
+        val scales : Array<Float> = arrayOf(0f, 0f, 0f, 0f, 0f)
         fun update (stopcb : (Float) -> Unit) {
             scales[j] += dir * 0.1f
             if (Math.abs(scales[j] - prevScale) > 1) {
@@ -93,6 +93,13 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             canvas.save()
             canvas.translate(w/2, yk1  + (yk2 - yk1)  * this.state.scales[2])
             canvas.drawLine(-xLine, 0f, xLine, 0f, paint)
+            canvas.restore()
+            val rectSize : Float = Math.min(w,h)/12
+            canvas.save()
+            canvas.translate((w - rectSize) * this.state.scales[4], yk2 - rectSize)
+            val mid : Float = rectSize/2
+            val sq : Float = mid * state.scales[3]
+            canvas.drawRect(RectF(mid - sq, mid - sq, mid + sq, mid + sq), paint)
             canvas.restore()
             canvas.restore()
         }
