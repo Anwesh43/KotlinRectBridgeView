@@ -69,4 +69,29 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             }
         }
     }
+
+    class RectBridge(var i : Int, private val state : State = State()) {
+        fun draw(canvas : Canvas, paint : Paint) {
+            val k : Float = 3f
+            val w : Float = canvas.width.toFloat()
+            val h : Float = canvas.height.toFloat()
+            val y1 : Float = 0.9f * h
+            val y2 : Float = 0.75f * h
+            for(i in 0..1) {
+                canvas.drawRect(i * w * (1 -   ((state.scales[0]) / k)) , y2, w * i + w/k * state.scales[0] * (1 - i), y1, paint)
+            }
+            val xLine : Float = (w / (2 * k)) * state.scales[1]
+            canvas.save()
+            canvas.translate(w/2, y1  + (y2 - y1) * h * this.state.scales[1])
+            canvas.drawLine(-xLine, 0f, xLine, 0f, paint)
+            canvas.restore()
+        }
+        fun update(stopcb : (Float) -> Unit) {
+            state.update(stopcb)
+        }
+        fun startUpdating(startcb : () -> Unit) {
+            state.startUpdating(startcb)
+        }
+    }
+    
 }
