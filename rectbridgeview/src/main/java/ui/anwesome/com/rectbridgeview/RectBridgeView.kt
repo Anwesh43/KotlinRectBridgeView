@@ -21,7 +21,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
         }
         return true
     }
-    class State (private var prevScale : Float = 0f, var dir : Float = 0f, var j : Int = 0) {
+    data class State (private var prevScale : Float = 0f, var dir : Float = 0f, var j : Int = 0) {
         val scales : Array<Float> = arrayOf(0f, 0f, 0f)
         fun update (stopcb : (Float) -> Unit) {
             scales[j] += dir * 0.1f
@@ -44,7 +44,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             }
         }
     }
-    class Animator(var view : View, var animated : Boolean = false) {
+    data class Animator(var view : View, var animated : Boolean = false) {
         fun animate (updatecb : () -> Unit) {
             if (animated) {
                 updatecb()
@@ -70,7 +70,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
         }
     }
 
-    class RectBridge(var i : Int, private val state : State = State()) {
+    data class RectBridge(var i : Int, private val state : State = State()) {
         fun draw(canvas : Canvas, paint : Paint) {
             val k : Float = 3f
             val w : Float = canvas.width.toFloat()
@@ -93,5 +93,24 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             state.startUpdating(startcb)
         }
     }
-    
+
+    data class Renderer(var view : RectBridgeView) {
+        private val rectBridge : RectBridge = RectBridge(0)
+        private val animator : Animator = Animator(view)
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            paint.color = Color.parseColor("#1976D2")
+            rectBridge.draw(canvas, paint)
+            animator.animate {
+                rectBridge.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            rectBridge.startUpdating {
+                animator.stop()
+            }
+        }
+    }
 }
