@@ -89,7 +89,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             val yk1 : Float = y1 - lw/2
             val yk2 : Float = y2 + lw/2
             canvas.save()
-            canvas.translate(w/2, yk1  + (yk2 - yk1) * h * this.state.scales[1])
+            canvas.translate(w/2, yk1  + (yk2 - yk1)  * this.state.scales[2])
             canvas.drawLine(-xLine, 0f, xLine, 0f, paint)
             canvas.restore()
         }
@@ -116,7 +116,7 @@ class RectBridgeView (ctx : Context) : View(ctx) {
         }
         fun handleTap() {
             rectBridge.startUpdating {
-                animator.stop()
+                animator.start()
             }
         }
     }
