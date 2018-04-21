@@ -4,6 +4,7 @@ package ui.anwesome.com.rectbridgeview
  * Created by anweshmishra on 21/04/18.
  */
 
+import android.app.Activity
 import android.view.*
 import android.content.*
 import android.graphics.*
@@ -112,6 +113,14 @@ class RectBridgeView (ctx : Context) : View(ctx) {
             rectBridge.startUpdating {
                 animator.stop()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : RectBridgeView {
+            val view : RectBridgeView = RectBridgeView(activity)
+            activity.setContentView(view)
+            return view 
         }
     }
 }
